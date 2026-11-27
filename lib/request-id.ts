@@ -1,0 +1,25 @@
+const HEX = '0123456789abcdef';
+
+/**
+ * สร้าง UUID v4 ฝั่ง client สำหรับใช้เป็น idempotency key
+ * ใช้ crypto.getRandomValues แทน randomUUID เพื่อให้ทำงานได้บน HTTP ภายในองค์กรด้วย
+ */
+export function createRequestId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+
+  bytes[6] = ((bytes[6] ?? 0) & 0x0f) | 0x40;
+  bytes[8] = ((bytes[8] ?? 0) & 0x3f) | 0x80;
+
+  let hex = '';
+  for (const byte of bytes) {
+    hex += HEX[byte >> 4] ?? '0';
+    hex += HEX[byte & 0x0f] ?? '0';
+  }
+
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}

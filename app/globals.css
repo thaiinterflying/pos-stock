@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(0.985 0.002 255);
+  --foreground: oklch(0.24 0.02 258);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.02 258);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.02 258);
+  --primary: oklch(0.42 0.12 258);
+  --primary-foreground: oklch(0.985 0.002 255);
+  --secondary: oklch(0.965 0.006 255);
+  --secondary-foreground: oklch(0.32 0.03 258);
+  --muted: oklch(0.965 0.004 255);
+  --muted-foreground: oklch(0.52 0.02 258);
+  --accent: oklch(0.952 0.018 255);
+  --accent-foreground: oklch(0.36 0.09 258);
+  --destructive: oklch(0.58 0.2 27);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.918 0.006 255);
+  --input: oklch(0.9 0.008 255);
+  --ring: oklch(0.62 0.1 258);
+}
+
+@theme inline {
+  --font-sans:
+    'Noto Sans Thai', 'Leelawadee UI', Thonburi, 'Segoe UI', Tahoma, system-ui, -apple-system,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+}
+
+/* พื้นหลังหน้า login: รูปถ่าย + overlay เพื่อให้ฟอร์มอ่านง่าย
+   วางไฟล์ภาพไว้ที่ public/images/login-background.jpg */
+.login-shell {
+  background-color: oklch(0.96 0.005 258);
+  background-image:
+    linear-gradient(oklch(0.985 0.003 258 / 0.7), oklch(0.96 0.008 258 / 0.84)),
+    url('/images/login-background.jpg'),
+    url('/images/login-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 1024px) {
+  .login-shell {
+    background-image:
+      linear-gradient(
+        100deg,
+        oklch(0.18 0.06 258 / 0.62) 0%,
+        oklch(0.22 0.075 258 / 0.46) 46%,
+        oklch(0.985 0.003 258 / 0.88) 46.001%,
+        oklch(0.97 0.006 258 / 0.94) 100%
+      ),
+      url('/images/login-background.jpg'),
+      url('/images/login-background.png');
+  }
+}
+
+/* ฝั่งซ้ายใช้ overlay จาก .login-shell แทน gradient เดิม */
+.login-aside {
+  background-image: none;
+}
+
+/* เพิ่มเงาให้ข้อความบนภาพอ่านง่ายขึ้น */
+.login-aside h1,
+.login-aside p,
+.login-aside li {
+  text-shadow: 0 1px 16px oklch(0.15 0.04 258 / 0.45);
+}
